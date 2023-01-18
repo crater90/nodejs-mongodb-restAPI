@@ -1,10 +1,10 @@
 require('dotenv').config()
 
 const userRouter = require('./routes/userRouter');
+const postRouter = require('./routes/postRouter');
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
-const auth = require('./middleware/auth')
 
 app.use(express.json());
 
@@ -26,3 +26,4 @@ mongoose.connect(
 
 app.use(express.json());
 app.use('/api', userRouter);
+app.use('/api', postRouter);
