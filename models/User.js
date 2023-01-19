@@ -31,10 +31,6 @@ const UserSchema = new mongoose.Schema(
         token: {
             type: String,
         }
-        // relationship: {
-        //     type: Number,
-        //     enum: [1, 2, 3],
-        // },
     },
     { timestamps: true }
 );

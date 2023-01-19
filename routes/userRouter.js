@@ -74,8 +74,9 @@ router.post('/authenticate', async (req, res) => {
 
             // user
             res.status(200).json(user);
+        } else {
+            res.status(400).send("Invalid Credentials");
         }
-        res.status(400).send("Invalid Credentials");
 
     } catch (error) {
         console.log(error);

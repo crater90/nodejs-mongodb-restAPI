@@ -95,10 +95,10 @@ router.post('/comment/:id', auth, async (req, res) => {
 //get a no of likes and comments of a single post with {id} 
 router.get('/posts/:id', auth, async (req, res) => {
     try {
-        const post = Post.findById(req.params.id);
+        const post = await Post.findById(req.params.id);
         res.status(200).json({
             "no_of_likes": post.likes.length,
-            "comments": post.comment,
+            "comments": post.comments,
         })
     } catch (error) {
         res.status(500).json(error);
@@ -106,20 +106,25 @@ router.get('/posts/:id', auth, async (req, res) => {
 })
 
 //get all post by the user
-router.get('/all_post', auth, async (req, res) => {
+router.get('/all_posts', auth, async (req, res) => {
     try {
         const userPosts = await Post.find({ userId: req.body._id }).sort({ "createdAt": 1 });
-        const expectedResult = userPosts.map((post) => {
-            return {
-                "id": post.userId,
-                "title": post.title,
-                "desc": post.desc,
-                "likes": post.likes.length,
-                "comments": post.comments,
-                "created_at": post.createdAt
-            }
-        })
-        res.status(200).json(expectedResult);
+        if (userPosts.length === 0) {
+            res.status(400).json("No post found for this user");
+        } else {
+            const expectedResult = userPosts.map((post) => {
+                return {
+                    "id": post.userId,
+                    "title": post.title,
+                    "desc": post.desc,
+                    "likes": post.likes.length,
+                    "comments": post.comments,
+                    "created_at": post.createdAt
+                }
+            })
+            res.status(200).json(expectedResult);
+        }
+
     } catch (error) {
         res.status(500).json(error);
     }

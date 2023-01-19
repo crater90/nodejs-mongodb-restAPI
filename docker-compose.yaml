@@ -1,0 +1,23 @@
+services:
+  #Mongodb service
+  mongodb:
+    container_name: db_container
+    image: mongo:latest
+    restart: always
+    volumes: 
+      - mongo_db:/data/db
+  
+  #Nodejs service
+  nodejs: 
+    container_name: nodejs_api
+    build: .
+    ports: 
+      - 4000:3000
+    environment:
+      DATABASE_URL: mongodb+srv://crater90:Kamran89@cluster0.gifpt7f.mongodb.net/?retryWrites=true&w=majority
+      SECRET: 5FFA6ACC0D6481844191F2F961C924BCD1EC2BFE53476240944C1FFBED2DD567
+      PORT: 3000
+    depends_on:
+      - mongodb
+volumes: 
+  mongo_db: {}

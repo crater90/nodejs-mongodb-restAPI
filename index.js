@@ -8,8 +8,10 @@ const mongoose = require('mongoose');
 
 app.use(express.json());
 
-app.listen(5000, () => {
-    console.log('server started at 5000');
+const port = process.env.PORT || 3000;
+
+app.listen(port, () => {
+    console.log(`server started at ${port}`);
 })
 
 mongoose.set('strictQuery', false);
@@ -25,5 +27,6 @@ mongoose.connect(
     });
 
 app.use(express.json());
+
 app.use('/api', userRouter);
 app.use('/api', postRouter);
